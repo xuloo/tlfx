@@ -11,6 +11,9 @@
 package flashx.textLayout.compose
 {	
 	import flash.display.Sprite;
+	import flash.events.Event;
+	import flash.events.EventDispatcher;
+	import flash.events.IEventDispatcher;
 	import flash.system.Capabilities;
 	import flash.text.engine.TextLine;
 	
@@ -58,11 +61,18 @@ package flashx.textLayout.compose
 	* @langversion 3.0
 	*/
 	
-	public class StandardFlowComposer extends FlowComposerBase implements IFlowComposer
+	//	KK
+	public class StandardFlowComposer extends FlowComposerBase implements IFlowComposer, IEventDispatcher
 	{
 		/** @private */
 		tlf_internal var _rootElement:ContainerFormattedElement;
-		private var _controllerList:Array;
+		
+		//	KK - Changed to an inner internal for the purposes of Binding to outside projects
+		private var __controllerList:Array;
+		
+		//	KK - Internal EventDispatcher for Binding event related to __controllerList
+		private var _eventDispatcher:EventDispatcher;
+		
 		private var _composing:Boolean;
 
 		
@@ -83,7 +93,8 @@ package flashx.textLayout.compose
 		public function StandardFlowComposer():void
 		{
 			super();
-			_controllerList = new Array();
+			__controllerList = new Array();
+			_eventDispatcher = new EventDispatcher( this );
 			_composing = false;
 		}
 
@@ -253,7 +264,8 @@ package flashx.textLayout.compose
 		public function addController(controller:ContainerController):void
 		{
 			CONFIG::debug { assert (_controllerList.indexOf(controller) < 0, "adding controller twice"); }
-			_controllerList.push(ContainerController(controller));
+			//	KK
+			_controllerList = _controllerList.concat(controller);//.push(ContainerController(controller));
 			if (this.numControllers == 1)
 			{				
 				attachAllContainers();
@@ -299,7 +311,8 @@ package flashx.textLayout.compose
 		{
 			CONFIG::debug { assert (_controllerList.indexOf(controller) == -1, "adding controller twice"); }
 			detachAllContainers();
-			_controllerList.splice(index,0,ContainerController(controller));
+			//	KK
+			_controllerList = _controllerList.splice(index,0,ContainerController(controller));
 			attachAllContainers();
 		}
 		
@@ -320,7 +333,8 @@ package flashx.textLayout.compose
 						clearContainerAccessibilityImplementation(firstContainer);				
 				}
 				cont.setRootElement(null);
-				_controllerList.splice(index,1);
+				//	KK
+				_controllerList = _controllerList.splice(index,1);
 				return true;
 			} 	
 			return false;
@@ -340,7 +354,8 @@ package flashx.textLayout.compose
 			if (!fastRemoveController(index))
 			{
 				detachAllContainers();
-				_controllerList.splice(index,1);
+				//	KK
+				_controllerList = _controllerList.splice(index,1);
 				attachAllContainers();
 			}
 		}
@@ -357,7 +372,8 @@ package flashx.textLayout.compose
 			if (!fastRemoveController(index))
 			{
 				detachAllContainers();
-				_controllerList.splice(index,1);
+				//	KK
+				_controllerList = _controllerList.splice(index,1);
 				attachAllContainers();
 			}
 		}
@@ -371,7 +387,8 @@ package flashx.textLayout.compose
 		public function removeAllControllers():void
 		{
 			detachAllContainers();
-			_controllerList.splice(0,_controllerList.length);
+			//	KK
+			_controllerList = _controllerList.splice(0,_controllerList.length);
 		}
 		
 		/** @copy IFlowComposer#getControllerAt()  
@@ -884,5 +901,62 @@ package flashx.textLayout.compose
 		/** @private */
 		public function createBackgroundManager():BackgroundManager
 		{ return new BackgroundManager(); }
+		
+		//	KK - 1/29/2010
+		/**
+		 * Internal getter/setter for list of ContainerControllers
+		 * When using set, will dispatch a custom Event that causes the Bindable and public getter for the list of ContainerControllers to be updated & returned.
+		 * 
+		 * @return Array of ContainerControllers
+		 * 
+		 */		
+		protected function get _controllerList():Array
+		{
+			return __controllerList;
+		}
+		protected function set _controllerList( value:Array ):void
+		{
+			__controllerList = value;
+			dispatchEvent( new Event("controllerListUpdated") );
+		}
+		
+		//	KK - 1/29/2010
+		/**
+		 * Custom Bindable for use with the internal getter/setter
+		 * 
+		 * @return Array of ContainerControllers
+		 * 
+		 */		
+		[Bindable(event="controllerListUpdated")]
+		public function get controllerList():Array
+		{
+			return _controllerList;
+		}
+		
+		
+		/**
+		 * Necessary implementation of EventDispatcher functions in order to create custom Bindable read only Array of ContainerControllers
+		 */		
+		//	KK - EventDispatcher functions		
+		public function addEventListener(type:String, listener:Function, useCapture:Boolean=false, priority:int=0, useWeakReference:Boolean=false):void
+		{
+			_eventDispatcher.addEventListener(type, listener, useCapture, priority, useWeakReference);
+		}
+		public function removeEventListener(type:String, listener:Function, useCapture:Boolean=false):void
+		{
+			_eventDispatcher.removeEventListener(type, listener, useCapture);
+		}
+		public function dispatchEvent(event:Event):Boolean
+		{
+			return _eventDispatcher.dispatchEvent(event);
+		}
+		public function hasEventListener(type:String):Boolean
+		{
+			return _eventDispatcher.hasEventListener(type);
+		}
+		public function willTrigger(type:String):Boolean
+		{
+			return _eventDispatcher.willTrigger(type);
+		}
 	}
 }
