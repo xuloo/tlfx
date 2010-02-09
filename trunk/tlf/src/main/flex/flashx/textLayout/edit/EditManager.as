@@ -832,7 +832,9 @@ package flashx.textLayout.edit
 				if (controllerIndex >= 0)
 					textFlow.flowComposer.getControllerAt(controllerIndex).scrollToRange(activePosition,anchorPosition);						
 			}	
-			opEvent = new FlowOperationEvent(FlowOperationEvent.FLOW_OPERATION_COMPLETE,false,false,op,0,null);
+			// 02-09-2010 [TA]: Dispatching the RedoOperation, NOT the wrapped operation as originally done.
+			//		The previous implementation was incongruous with how Undo and Redo operations should be notified to a client listening for the FLOW_OPERATION_COMPLETE event.
+			opEvent = new FlowOperationEvent(FlowOperationEvent.FLOW_OPERATION_COMPLETE,false,false,(redoPsuedoOp)?redoPsuedoOp:op,0,null);
 			textFlow.dispatchEvent(opEvent);			
 		}
 		
