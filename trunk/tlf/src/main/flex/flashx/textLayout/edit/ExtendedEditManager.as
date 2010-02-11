@@ -55,6 +55,7 @@ package flashx.textLayout.edit
 									{
 										//	Adjust the relative start position to not include the extraneous text
 										relativeStart_Start -= ( startElement as ListItemElement ).mode == ListElement.BULLETED ? 3 : 4;
+										relativeStart_End -= ( startElement as ListItemElement ).mode == ListElement.BULLETED ? 3 : 4;
 										
 										//	Nothing actually selected
 										//	Get text from relative start to element to end of element's raw text & use it to set the text of the new element
@@ -64,6 +65,8 @@ package flashx.textLayout.edit
 										( startElement as ListItemElement ).text = startingText.substring( 0, relativeStart_Start );
 										
 										newElement.text = strToPass;
+										
+										( endElement as ListItemElement ).text = ( endElement as ListItemElement ).rawText.substring( 0, relativeStart_End );
 									}
 									else
 									{
@@ -86,19 +89,10 @@ package flashx.textLayout.edit
 									
 									this.updateAllControllers();
 								}
-								else
-								{
-									trace('couldn\'t get list element!');
-								}
-							}
-							else
-							{
-								trace('no parent!');
 							}
 						}
 						else
 						{
-							trace('inserting break');
 							this.insertText( '\n' );
 						}
 					}
