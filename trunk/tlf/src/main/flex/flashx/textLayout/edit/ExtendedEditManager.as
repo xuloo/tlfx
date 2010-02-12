@@ -30,62 +30,78 @@ package flashx.textLayout.edit
 						
 						if ( startElement is ListItemElement )
 						{
-							trace('list item element');
 							if ( startElement.parent )
 							{
-								trace('parent exists');
 								var listElem:ListElement = startElement.parent as ListElement;
 								if ( listElem )
 								{
-									var childPos:uint = listElem.getChildIndex( startElement );
-									
-									/* Need to get the position of the start of the selection in the ListItemElement
-									and then copy all the text in the selection into the new ListItemElement that I need to add right afterwards. */
+									var childPos:int = listElem.getChildIndex( startElement );
 									
 									var startElementStart:int = startElement.getElementRelativeStart( this.textFlow );
 									var endElementStart:int = endElement.getElementRelativeStart( this.textFlow );
 									var relativeStart_Start:int = this.absoluteStart - startElementStart;
 									var relativeStart_End:int = this.absoluteEnd - endElementStart;
 									
+									//	Adjust the relative start position to not include the extraneous text
+									relativeStart_Start -= ( startElement as ListItemElement ).mode == ListElement.BULLETED ? 3 : 4;
+									relativeStart_End -= ( startElement as ListItemElement ).mode == ListElement.BULLETED ? 3 : 4;
+									
 									var strToPass:String = '';
 									
 									var newElement:ListItemElement = new ListItemElement();
 									
+									var startingText:String = ( startElement as ListItemElement ).rawText;
+									var endingText:String = ( endElement as ListItemElement ).rawText;
+									
 									if ( this.absoluteStart == this.absoluteEnd )
 									{
-										//	Adjust the relative start position to not include the extraneous text
-										relativeStart_Start -= ( startElement as ListItemElement ).mode == ListElement.BULLETED ? 3 : 4;
-										relativeStart_End -= ( startElement as ListItemElement ).mode == ListElement.BULLETED ? 3 : 4;
-										
 										//	Nothing actually selected
 										//	Get text from relative start to element to end of element's raw text & use it to set the text of the new element
-										var startingText:String = ( startElement as ListItemElement ).rawText;
 										
 										strToPass = startingText.substring( relativeStart_Start, startingText.length );
-										( startElement as ListItemElement ).text = startingText.substring( 0, relativeStart_Start );
+										( startElement as ListItemElement ).text = startingText.substring( 0, relativeStart_Start-1 );
 										
-										newElement.text = strToPass;
-										
-										( endElement as ListItemElement ).text = ( endElement as ListItemElement ).rawText.substring( 0, relativeStart_End );
+										this.setSelectionState( new SelectionState( this.textFlow, this.absoluteEnd + strToPass.length, this.absoluteEnd + strToPass.length, this.textFlow.format ) );
 									}
 									else
 									{
-										
+										if ( startElement != endElement )
+										{
+											//	Range selection:  Delete selected text by adjusting beginning accordingly, delete any items between the two selected items, and use remaining text for new element
+											( startElement as ListItemElement ).text = startingText.substring( 0, relativeStart_Start-1 );
+											
+											var endPos:int = listElem.getChildIndex( endElement );
+											var numToDelete:int = endPos - childPos;
+											var totalTextOffset:int = 0;
+											while ( numToDelete-- > 0 )
+											{
+												var li:ListItemElement = listElem.getChildAt( childPos + numToDelete ) as ListItemElement;
+												totalTextOffset += li.text.length;
+												listElem.removeChild( li );
+											}
+											
+											( endElement as ListItemElement ).text = startingText.substring( 0, relativeStart_Start-1 );
+											
+											strToPass = endingText.substring( relativeStart_End, endingText.length );
+											
+											this.setSelectionState( new SelectionState( this.textFlow, this.absoluteEnd + strToPass.length - totalTextOffset + 1, this.absoluteEnd + strToPass.length - totalTextOffset + 1, this.textFlow.format ) );
+										}
+										else
+										{
+											//	Range selection:  Delete selected text and pass remaining text to new element
+											( startElement as ListItemElement ).text = startingText.substring( 0, relativeStart_Start );
+											
+											strToPass = endingText.substring( relativeStart_End, endingText.length );
+										}
 									}
+									
+									newElement.text = strToPass;
 									
 									//	Last child
 									if ( childPos == listElem.numChildren-1 )
-									{
-										trace('last child');
 										listElem.addChild( newElement );
-									}
 									else
-									{
-										trace('not last child');
 										listElem.addChildAt( childPos+1, newElement );
-									}
-									
-									this.setSelectionState( new SelectionState( this.textFlow, this.absoluteEnd + newElement.text.length, this.absoluteEnd + newElement.text.length, this.textFlow.format ) );
 									
 									this.updateAllControllers();
 								}
