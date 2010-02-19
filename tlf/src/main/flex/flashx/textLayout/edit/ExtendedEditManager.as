@@ -2,9 +2,11 @@ package flashx.textLayout.edit
 {
 	import flash.events.KeyboardEvent;
 	import flash.ui.Keyboard;
+	import flash.utils.getDefinitionByName;
+	import flash.utils.getQualifiedClassName;
 	
+	import flashx.textLayout.edit.helpers.ListItemElementEnterHelper;
 	import flashx.textLayout.elements.FlowLeafElement;
-	import flashx.textLayout.elements.ListElement;
 	import flashx.textLayout.elements.ListItemElement;
 	import flashx.undo.IUndoManager;
 	
@@ -17,6 +19,9 @@ package flashx.textLayout.edit
 		
 		override public function keyDownHandler(event:KeyboardEvent) : void
 		{
+			var startElement:FlowLeafElement = this.textFlow.findLeaf( this.absoluteStart );
+			var endElement:FlowLeafElement = this.textFlow.findLeaf( this.absoluteEnd );
+			
 			switch ( event.keyCode )
 			{
 				case Keyboard.TAB:
@@ -25,98 +30,68 @@ package flashx.textLayout.edit
 				case Keyboard.ENTER:
 					if ( this.hasSelection() )
 					{
-						var startElement:FlowLeafElement = this.textFlow.findLeaf( this.absoluteStart );
-						var endElement:FlowLeafElement = this.textFlow.findLeaf( this.absoluteEnd );
-						
-						if ( startElement is ListItemElement )
+						switch ( ExtendedEditManager.getClass( startElement ) )
 						{
-							if ( startElement.parent )
+							case ListItemElement:
+								trace('list item element');
+								ListItemElementEnterHelper.processReturnKey( this, startElement as ListItemElement );
+								break;
+							default:
+								trace('default');
+								this.insertText( '\n' );
+								break;
+						}
+					}
+					break;
+				case Keyboard.BACKSPACE:
+					if ( this.hasSelection() )
+					{
+						var previousElement:FlowLeafElement = this.textFlow.findLeaf( startElement.getElementRelativeStart( this.textFlow ) - 1 );
+						
+						if ( (startElement is ListItemElement) || (endElement is ListItemElement) )
+						{
+							ListItemElementEnterHelper.processDeleteKey( this, startElement, endElement );
+						}
+						else if ( previousElement is ListItemElement )
+						{
+							var previousItem:ListItemElement = previousElement as ListItemElement;
+							var selectionState:SelectionState = new SelectionState( this.textFlow, this.absoluteStart, this.absoluteEnd, this.textFlow.format );
+							
+							if ( this.isRangeSelection() )
 							{
-								var listElem:ListElement = startElement.parent as ListElement;
-								if ( listElem )
-								{
-									var childPos:int = listElem.getChildIndex( startElement );
-									
-									var startElementStart:int = startElement.getElementRelativeStart( this.textFlow );
-									var endElementStart:int = endElement.getElementRelativeStart( this.textFlow );
-									var relativeStart_Start:int = this.absoluteStart - startElementStart;
-									var relativeStart_End:int = this.absoluteEnd - endElementStart;
-									
-									//	Adjust the relative start position to not include the extraneous text
-									relativeStart_Start -= ( startElement as ListItemElement ).mode == ListElement.BULLETED ? 3 : 4;
-									relativeStart_End -= ( startElement as ListItemElement ).mode == ListElement.BULLETED ? 3 : 4;
-									
-									var strToPass:String = '';
-									
-									var newElement:ListItemElement = new ListItemElement();
-									
-									var startingText:String = ( startElement as ListItemElement ).rawText;
-									var endingText:String = ( endElement as ListItemElement ).rawText;
-									
-									if ( this.absoluteStart == this.absoluteEnd )
-									{
-										//	Nothing actually selected
-										//	Get text from relative start to element to end of element's raw text & use it to set the text of the new element
-										
-										strToPass = startingText.substring( relativeStart_Start, startingText.length );
-										( startElement as ListItemElement ).text = startingText.substring( 0, relativeStart_Start-1 );
-										
-										this.setSelectionState( new SelectionState( this.textFlow, this.absoluteEnd + strToPass.length, this.absoluteEnd + strToPass.length, this.textFlow.format ) );
-									}
-									else
-									{
-										if ( startElement != endElement )
-										{
-											//	Range selection:  Delete selected text by adjusting beginning accordingly, delete any items between the two selected items, and use remaining text for new element
-											( startElement as ListItemElement ).text = startingText.substring( 0, relativeStart_Start-1 );
-											
-											var endPos:int = listElem.getChildIndex( endElement );
-											var numToDelete:int = endPos - childPos;
-											var totalTextOffset:int = 0;
-											while ( numToDelete-- > 0 )
-											{
-												var li:ListItemElement = listElem.getChildAt( childPos + numToDelete ) as ListItemElement;
-												totalTextOffset += li.text.length;
-												listElem.removeChild( li );
-											}
-											
-											( endElement as ListItemElement ).text = startingText.substring( 0, relativeStart_Start-1 );
-											
-											strToPass = endingText.substring( relativeStart_End, endingText.length );
-											
-											this.setSelectionState( new SelectionState( this.textFlow, this.absoluteEnd + strToPass.length - totalTextOffset + 1, this.absoluteEnd + strToPass.length - totalTextOffset + 1, this.textFlow.format ) );
-										}
-										else
-										{
-											//	Range selection:  Delete selected text and pass remaining text to new element
-											( startElement as ListItemElement ).text = startingText.substring( 0, relativeStart_Start );
-											
-											strToPass = endingText.substring( relativeStart_End, endingText.length );
-										}
-									}
-									
-									newElement.text = strToPass;
-									
-									//	Last child
-									if ( childPos == listElem.numChildren-1 )
-										listElem.addChild( newElement );
-									else
-										listElem.addChildAt( childPos+1, newElement );
-									
-									this.updateAllControllers();
-								}
+								this.deleteText( selectionState );
+								this.selectRange( this.absoluteStart-2, this.absoluteStart-2 );
 							}
+							else
+							{
+								previousItem.text = previousItem.rawText.substr( 0, previousItem.rawText.length-2 );
+								var selectionPos:int = previousItem.getElementRelativeStart( this.textFlow ) + previousItem.text.length - 2;
+								this.selectRange( selectionPos, selectionPos );
+							}
+							this.textFlow.flowComposer.updateAllControllers();
 						}
 						else
 						{
-							this.insertText( '\n' );
+							super.keyDownHandler( event );
 						}
 					}
 					break;
 				default:
+					if ( startElement is ListItemElement )
+					{
+						//	Insert text being entered into position it's being entered
+						var startItem:ListItemElement = startElement as ListItemElement;
+						
+						
+					}
 					super.keyDownHandler( event );
 					break;
 			}
+		}
+		
+		private static function getClass(obj:Object):Class
+		{
+			return Class(getDefinitionByName(getQualifiedClassName(obj)));
 		}
 	}
 }
