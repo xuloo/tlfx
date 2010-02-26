@@ -83,6 +83,15 @@ package flashx.textLayout.elements
 			changeMode( _mode );
 		}
 		
+		
+		
+		public function importFromHTML():void
+		{
+			
+		}
+		
+		
+		
 		private function changeMode( value:String ):void
 		{
 			if ( value != ListElement.BULLETED && value != ListElement.NUMBERED )
