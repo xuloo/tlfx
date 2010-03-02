@@ -21,25 +21,30 @@ package flashx.textLayout.elements
 		
 		override public function addChild(child:FlowElement) : FlowElement
 		{
-			//	TODO: 3/1 Make sure this works
+			trace('adding');
 			var toReturn:ListItemElement = new ListItemElement();
 			if ( !(child is ListItemElement) )
 			{
+				trace('not list item element');
 				if ( child is SpanElement )
 				{
+					trace('\tspan');
 					toReturn.text = ( child as SpanElement ).text;
 				}
 				else if ( child is LinkElement )
 				{
+					trace('\tlink');
 					toReturn.text = ( child as LinkElement ).getText( 0, ( child as LinkElement ).textLength );
 				}
 				else
 				{
+					trace('\tdunno:', child);
 					toReturn.text = '';
 				}
 			}
 			else
 			{
+				trace('is, recasting');
 				toReturn = child as ListItemElement;
 			}
 			
@@ -60,10 +65,35 @@ package flashx.textLayout.elements
 		
 		override public function addChildAt(index:uint, child:FlowElement) : FlowElement
 		{
+			trace('adding at');
+			var toReturn:ListItemElement = new ListItemElement();
 			if ( !(child is ListItemElement) )
-				return null;	//	Cannot add something that isn't a ListItemElement to ListElement
-			( child as ListItemElement ).mode = _mode;
-			( child as ListItemElement ).number = index+1;
+			{
+				trace('not list item element');
+				if ( child is SpanElement )
+				{
+					trace('\tspan');
+					toReturn.text = ( child as SpanElement ).text;
+				}
+				else if ( child is LinkElement )
+				{
+					trace('\tlink');
+					toReturn.text = ( child as LinkElement ).getText( 0, ( child as LinkElement ).textLength );
+				}
+				else
+				{
+					trace('\tdunno:', child);
+					toReturn.text = '';
+				}
+			}
+			else
+			{
+				trace('is, recasting');
+				toReturn = child as ListItemElement;
+			}
+			
+			toReturn.mode = _mode;
+			toReturn.number = index+1;
 			
 			for ( var i:int = index; i < this.numChildren; i++ )
 			{
@@ -75,9 +105,9 @@ package flashx.textLayout.elements
 			{
 				resetFirstAndLast();
 				if ( index == 0 )
-					( child as ListItemElement ).first = true;
+					toReturn.first = true;
 				if ( index >= this.numChildren )
-					( child as ListItemElement ).last = true;
+					toReturn.last = true;
 			}
 			
 			return super.addChildAt(index > this.numChildren ? this.numChildren : index, child);
