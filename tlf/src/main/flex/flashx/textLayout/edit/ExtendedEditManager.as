@@ -24,6 +24,8 @@ package flashx.textLayout.edit
 		
 		override public function keyDownHandler(event:KeyboardEvent) : void
 		{
+			trace('key down handler');
+			
 			var startElement:FlowLeafElement = this.textFlow.findLeaf( this.absoluteStart );
 			var endElement:FlowLeafElement = this.textFlow.findLeaf( this.absoluteEnd );
 			
@@ -33,8 +35,10 @@ package flashx.textLayout.edit
 					this.insertText( '\t' );
 					break;
 				case Keyboard.ENTER:
+					trace('enter pressed');
 					if ( this.hasSelection() )
 					{
+						trace('startElement:', startElement);
 						if ( startElement is ListItemElement )
 						{
 							ListItemElementEnterHelper.processReturnKey( this, startElement as ListItemElement );

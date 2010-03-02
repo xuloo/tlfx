@@ -21,27 +21,47 @@ package flashx.textLayout.elements
 		
 		override public function addChild(child:FlowElement) : FlowElement
 		{
+			//	TODO: 3/1 Make sure this works
+			var toReturn:ListItemElement = new ListItemElement();
 			if ( !(child is ListItemElement) )
-				throw new Error( 'Cannot add the child, ' + child + ', to ListElement object ' + this + ' because it isn\'t of type ListItemElement.' );
-			( child as ListItemElement ).mode = _mode;
-			( child as ListItemElement ).number = this.numChildren+1;
+			{
+				if ( child is SpanElement )
+				{
+					toReturn.text = ( child as SpanElement ).text;
+				}
+				else if ( child is LinkElement )
+				{
+					toReturn.text = ( child as LinkElement ).getText( 0, ( child as LinkElement ).textLength );
+				}
+				else
+				{
+					toReturn.text = '';
+				}
+			}
+			else
+			{
+				toReturn = child as ListItemElement;
+			}
+			
+			toReturn.mode = _mode;
+			toReturn.number = this.numChildren + 1;
 			
 			resetFirstAndLast();
 			
-			if ( this.getChildAt(0) )
-				( this.getChildAt(0) as ListItemElement ).first = true;
+			if ( this.getChildAt( 0 ) )
+				( this.getChildAt( 0 ) as ListItemElement ).first = true;
 			else
-				( child as ListItemElement ).first = true;
+				toReturn.first = true;
 			
-			( child as ListItemElement ).last = true;
+			toReturn.last = true;
 			
-			return super.addChild(child);
+			return super.addChild( toReturn );
 		}
 		
 		override public function addChildAt(index:uint, child:FlowElement) : FlowElement
 		{
 			if ( !(child is ListItemElement) )
-				throw new Error( 'Cannot add the child, ' + child + ', to ListElement object ' + this + ' because it isn\'t of type ListItemElement.' );
+				return null;	//	Cannot add something that isn't a ListItemElement to ListElement
 			( child as ListItemElement ).mode = _mode;
 			( child as ListItemElement ).number = index+1;
 			
@@ -81,13 +101,6 @@ package flashx.textLayout.elements
 		{
 			super.replaceChildren( beginChildIndex, endChildIndex, rest );
 			changeMode( _mode );
-		}
-		
-		
-		
-		public function importFromHTML():void
-		{
-			
 		}
 		
 		
