@@ -312,7 +312,8 @@ package flashx.textLayout.compose
 			CONFIG::debug { assert (_controllerList.indexOf(controller) == -1, "adding controller twice"); }
 			detachAllContainers();
 			//	KK
-			_controllerList = _controllerList.splice(index,0,ContainerController(controller));
+			_controllerList.splice(index,0,ContainerController(controller));
+			_controllerList = _controllerList.slice();
 			attachAllContainers();
 		}
 		
