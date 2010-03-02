@@ -335,7 +335,8 @@ package flashx.textLayout.compose
 				}
 				cont.setRootElement(null);
 				//	KK
-				_controllerList = _controllerList.splice(index,1);
+				_controllerList.splice(index,1);
+				_controllerList = _controllerList.slice();
 				return true;
 			} 	
 			return false;
@@ -356,7 +357,8 @@ package flashx.textLayout.compose
 			{
 				detachAllContainers();
 				//	KK
-				_controllerList = _controllerList.splice(index,1);
+				_controllerList.splice(index,1);
+				_controllerList = _controllerList.slice();
 				attachAllContainers();
 			}
 		}
@@ -374,7 +376,8 @@ package flashx.textLayout.compose
 			{
 				detachAllContainers();
 				//	KK
-				_controllerList = _controllerList.splice(index,1);
+				_controllerList.splice(index,1);
+				_controllerList = _controllerList.slice();
 				attachAllContainers();
 			}
 		}
@@ -389,7 +392,8 @@ package flashx.textLayout.compose
 		{
 			detachAllContainers();
 			//	KK
-			_controllerList = _controllerList.splice(0,_controllerList.length);
+			_controllerList.splice(0,_controllerList.length);
+			_controllerList = _controllerList.slice();
 		}
 		
 		/** @copy IFlowComposer#getControllerAt()  
