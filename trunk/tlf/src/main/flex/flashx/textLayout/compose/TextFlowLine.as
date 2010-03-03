@@ -812,7 +812,11 @@ package flashx.textLayout.compose
 				//if the elem is in a TCYBlock, AND it is not the only block in the line, "skip" it
 				if (!(bp == BlockProgression.RL && (elem.parent is TCYElement) &&  (!isNaN(totalLeading) || (elem.textLength != this.textLength))))
 				{
-					var elemLeading:Number = TextLayoutFormat.lineHeightProperty.computeActualPropertyValue(elem.computedFormat.lineHeight,elem.getEffectiveFontSize());
+					// [TA] 02.18.10 :: Returning 100% for computation of graphic height. The selection bounds were all off and the 
+					//					block progression of text was vertically was much distance.
+//					var lh:* = ( elem is InlineGraphicElement ) ? "100%" : elem.computedFormat.lineHeight;
+					var lh:* = elem.computedFormat.lineHeight;
+					var elemLeading:Number = TextLayoutFormat.lineHeightProperty.computeActualPropertyValue(lh,elem.getEffectiveFontSize());
 					totalLeading = Math.max(totalLeading, elemLeading);
 				}
 				elemStart += elem.textLength;
