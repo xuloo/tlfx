@@ -106,6 +106,8 @@ package flashx.textLayout.compose
 		/** Beginning composition position.  Note this gets cleared once its been passed */
 		protected var _startComposePosition:int;
 		
+		//[TA] 02.18.10
+//		protected var _previousTextLine:TextLine;
 		
 		// scratch line slugs
 		static protected var _candidateLineSlug:Rectangle = new Rectangle();
@@ -221,6 +223,7 @@ package flashx.textLayout.compose
 					// note that this is a nop on older players.  only newer players implement flush	
 					if (releaseLineCreationData)
 						para.releaseLineCreationData();
+					
 					if (!rslt)
 						return false;	// done
 				}
@@ -239,6 +242,8 @@ package flashx.textLayout.compose
 				
 				absStart += child.textLength;
 			}
+			//[TA] 02.18.10
+//			_previousTextLine = null;
 			return true;
 		}
 		
@@ -459,6 +464,7 @@ package flashx.textLayout.compose
 				if (_curElement == null)
 					break;
 			}
+			
 			return true;
 		}
 		
@@ -673,6 +679,14 @@ package flashx.textLayout.compose
 			//don't know why, but ascent only needs to be removed from horizontal text.  Hmm, that seems
 			//odd to me - gak 12.15.09
 			rise += _blockProgression == BlockProgression.RL ? -(lineHeight) : lineHeight - curTextLine.ascent;
+			// [TA] 02.18.10 :: Computing extra rise (y offset) for graphic.
+			//					A change has been made to TextFlowLine to return 100% height on graphic.
+			//					As such the yoffset was misleading, so we add a font size percentage to adjust.
+//			rise += ( _curElement is InlineGraphicElement ) 
+//						? ( _previousTextLine ) 
+//							? _previousTextLine.descent + 1
+//							: 0 
+//						: 0;
 			
 			//baselineType will be BaselineOffset.ASCENT for fixed leading
 			if(curTextLine.hasGraphicElement && baselineType != BaselineOffset.ASCENT)
@@ -697,6 +711,9 @@ package flashx.textLayout.compose
 			
 			if(isNewLine)
 				curLine.createAdornments(_blockProgression,_curElement,_curElementStart);
+			
+			//[TA] 02.18.10
+//			_previousTextLine = curTextLine;
 		}	
 		
 		// Calculate the text alignment of the current line we're composing. If alignment is required, the adjustment will be made in
