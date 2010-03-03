@@ -19,7 +19,16 @@ package flashx.textLayout.edit
 		
 		override public function textInputHandler(event:TextEvent) : void
 		{
-			//
+			var startElement:FlowLeafElement = this.textFlow.findLeaf( this.absoluteStart );
+			
+			if ( startElement is ListItemElement )
+			{
+				//	Nothing
+			}
+			else
+			{
+				super.textInputHandler( event );
+			}
 		}
 		
 		override public function keyDownHandler(event:KeyboardEvent) : void
