@@ -6,13 +6,17 @@ package flashx.textLayout.edit
 	import flash.events.TextEvent;
 	import flash.ui.Keyboard;
 	
+	import flashx.textLayout.container.table.ICellContainer;
 	import flashx.textLayout.conversion.ConversionType;
 	import flashx.textLayout.conversion.TextConverter;
 	import flashx.textLayout.edit.helpers.ListItemElementEnterHelper;
+	import flashx.textLayout.elements.FlowElement;
 	import flashx.textLayout.elements.FlowLeafElement;
 	import flashx.textLayout.elements.ListElement;
 	import flashx.textLayout.elements.ListItemElement;
 	import flashx.textLayout.elements.TextFlow;
+	import flashx.textLayout.elements.table.TableElement;
+	import flashx.textLayout.operations.PasteOperation;
 	import flashx.textLayout.tlf_internal;
 	import flashx.undo.IUndoManager;
 	
@@ -207,6 +211,42 @@ package flashx.textLayout.edit
 			//			where the affected cell is passed in, and internalDoOperation is overriden to append content.
 			var data:String = TextClipboard.getTextOnClipboardForFormat(ClipboardFormats.TEXT_FORMAT );
 			super.editHandler( event );
+		}
+		
+		override public function pasteTextScrap(scrapToPaste:TextScrap, operationState:SelectionState = null):void
+		{
+			operationState = defaultOperationState(operationState);
+			if (!operationState)
+				return;
+			
+			var mark:int = operationState.anchorPosition;
+			var flowElement:FlowElement = textFlow.findLeaf( mark );
+			var cell:ICellContainer;
+			// cycle through hiearchy to find if we are pasting into a TableElement.
+			while( flowElement )
+			{
+				if( flowElement is TableElement )
+					break;
+				flowElement = flowElement.parent;
+			}
+			// If we have found that we are tyring to paste into a TableElement, find the corresponding cell at the position.
+			if( flowElement is TableElement )
+			{
+				cell = ( flowElement as TableElement ).getCellAtPosition( mark );
+			}
+			
+			// If we have our cell, fire a TablePasteOperation.
+			if( cell != null )
+			{
+				var data:String = TextClipboard.getTextOnClipboardForFormat(ClipboardFormats.TEXT_FORMAT );
+				data = data.replace( /[\r\n]/g, TableElement.LINE_BREAK_IDENTIFIER );
+				// Update contents of clipboard with cleaned strings.
+				var flow:TextFlow = TextConverter.importToFlow( data, TextConverter.PLAIN_TEXT_FORMAT );
+				var tlf:String = TextConverter.export( flow, TextConverter.TEXT_LAYOUT_FORMAT, ConversionType.STRING_TYPE ).toString();
+				TextClipboard.tlf_internal::setClipboardContents( tlf, data );
+				scrapToPaste = TextClipboard.getContents();
+			}
+			doOperation(new PasteOperation(operationState, scrapToPaste));
 		}
 		
 //		private static function getClass(obj:Object):Class
