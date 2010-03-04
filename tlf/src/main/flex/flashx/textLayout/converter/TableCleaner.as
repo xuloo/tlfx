@@ -92,6 +92,7 @@ package flashx.textLayout.converter
 			catch( e:Error )
 			{
 				// fail silently.
+				trace( e.message );
 			}
 		}
 		
