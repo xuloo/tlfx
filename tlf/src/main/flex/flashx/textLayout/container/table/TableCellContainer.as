@@ -359,9 +359,9 @@ package flashx.textLayout.container.table
 			targetDisplay.y += _descent - 1;// - getPadding();
 			targetDisplay.x = getPadding();// ( _width - _actualWidth ) * 0.5;
 			
-			border.graphics.clear();
-			border.graphics.lineStyle( 1 );
-			border.graphics.drawRect( targetDisplay.x, targetDisplay.y, _actualWidth, _actualHeight );
+//			border.graphics.clear();
+//			border.graphics.lineStyle( 1 );
+//			border.graphics.drawRect( targetDisplay.x, targetDisplay.y, _actualWidth, _actualHeight );
 		}
 		
 		/**
