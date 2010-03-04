@@ -3,6 +3,8 @@ package flashx.textLayout.elements.table
 	import flash.display.DisplayObjectContainer;
 	import flash.events.IEventDispatcher;
 	
+	import flashx.textLayout.container.table.ICellContainer;
+	import flashx.textLayout.elements.FlowElement;
 	import flashx.textLayout.model.table.Table;
 
 	/**
@@ -18,5 +20,12 @@ package flashx.textLayout.elements.table
 		 * @param targetContainer DisplayObjectContainer
 		 */
 		function create( element:TableElement, table:Table, targetContainer:DisplayObjectContainer ):void;
+		
+		/**
+		 * Returns the corresponding cell container related to the FlowElement. 
+		 * @param element FlowElement
+		 * @return ICellContainer
+		 */
+		function findCellFromElement( element:FlowElement ):ICellContainer;
 	}
 }

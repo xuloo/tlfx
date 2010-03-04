@@ -2,14 +2,21 @@ package flashx.textLayout.elements.table
 {
 	import flash.display.DisplayObjectContainer;
 	
+	import flashx.textLayout.container.table.ICellContainer;
+	import flashx.textLayout.container.table.TableCellContainer;
 	import flashx.textLayout.converter.ITagAssembler;
 	import flashx.textLayout.converter.ITagParser;
 	import flashx.textLayout.elements.ContainerFormattedElement;
+	import flashx.textLayout.elements.FlowElement;
 	import flashx.textLayout.elements.TextFlow;
 	import flashx.textLayout.events.TagParserCleanCompleteEvent;
 	import flashx.textLayout.events.TagParserCleanProgressEvent;
 	import flashx.textLayout.model.table.Table;
 
+	/**
+	 * TableElement represents a table in the text flow. 
+	 * @author toddanderson
+	 */
 	public class TableElement extends ContainerFormattedElement
 	{
 		protected var _table:Table;
@@ -23,11 +30,20 @@ package flashx.textLayout.elements.table
 		
 		protected var _textFlow:TextFlow;
 		
+		public static const LINE_BREAK_IDENTIFIER:String = "|tlf_table_paste_break|";
+		
+		/**
+		 * Constrcutor.
+		 */
 		public function TableElement()
 		{
 			super();
 		}
 		
+		/**
+		 * Override to mark this instance as not being abstract. 
+		 * @return Boolean
+		 */
 		override protected function get abstract() : Boolean
 		{
 			return false;
@@ -71,6 +87,11 @@ package flashx.textLayout.elements.table
 			_tableManager.create( this, _table, _targetContainer );
 		}
 		
+		/**
+		 * Initialized the table element with a reference to the target TextFlow and the target display object container on which to add visual cells. 
+		 * @param textFlow TextFlow
+		 * @param targetContainer DisplayObjectContainer
+		 */
 		public function initialize( textFlow:TextFlow, targetContainer:DisplayObjectContainer ):void
 		{
 			_textFlow = textFlow;
@@ -81,11 +102,43 @@ package flashx.textLayout.elements.table
 			_importer.clean( _fragment );
 		}
 		
+		/**
+		 * Returns the cell container at the supplied position within the text flow. 
+		 * @param position int
+		 * @return ICellContainer
+		 */
+		public function getCellAtPosition( position:int ):ICellContainer
+		{
+			var i:int;
+			var start:int;
+			var end:int;
+			var childElement:FlowElement;
+			for( i = 0; i < numChildren; i++ )
+			{
+				childElement = getChildAt( i ) as FlowElement;
+				start = childElement.getAbsoluteStart();
+				end = start + childElement.textLength;
+				if( start <= position && end >= position )
+				{
+					return _tableManager.findCellFromElement( childElement );
+				}
+			}
+			return null;
+		}
+		
+		/**
+		 * Returns the held TetFlow instance. 
+		 * @return TextFlow
+		 */
 		override public function getTextFlow():TextFlow
 		{
 			return _textFlow;
 		}
 		
+		/**
+		 * Serializes and returns the table representation as valid table HTML markup. 
+		 * @return String
+		 */
 		public function serialize():String
 		{
 			XML.prettyIndent = 4;
@@ -94,6 +147,10 @@ package flashx.textLayout.elements.table
 			return _fragment.toXMLString();
 		}
 		
+		/**
+		 * Accessor/Modifier for the target ITableElementManager impementation that handles layout and management of the table. 
+		 * @return ITableElementManager
+		 */
 		public function get tableManager():ITableElementManager
 		{
 			return _tableManager;
@@ -103,6 +160,10 @@ package flashx.textLayout.elements.table
 			_tableManager = value;
 		}
 		
+		/**
+		 * Accessor/Modifier for the fragment to parse into a visual table for the textflow. 
+		 * @return * an be XML or String
+		 */
 		public function get fragment():* /* String or XML */
 		{
 			return _fragment;
@@ -112,6 +173,10 @@ package flashx.textLayout.elements.table
 			_fragment = value;
 		}
 		
+		/**
+		 * Accessor/Modifier for the table fragment parser. 
+		 * @return ITagParser
+		 */
 		public function get importer():ITagParser
 		{
 			return _importer;
@@ -121,6 +186,10 @@ package flashx.textLayout.elements.table
 			_importer = value;
 		}
 		
+		/**
+		 * Accessor/Modifier for the converter of the current table model into a vlaie HTML markup. 
+		 * @return ITagAssembler
+		 */
 		public function get exporter():ITagAssembler
 		{
 			return _exporter;
@@ -130,6 +199,10 @@ package flashx.textLayout.elements.table
 			_exporter = value;
 		}
 		
+		/**
+		 * Accessor/Modifier of the index within the textflow that this element resides. 
+		 * @return int
+		 */
 		public function get elementalIndex():int
 		{
 			return _elementalIndex;
