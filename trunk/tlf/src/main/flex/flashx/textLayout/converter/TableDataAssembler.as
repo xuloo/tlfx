@@ -47,13 +47,14 @@ package flashx.textLayout.converter
 		 */
 		protected function assignAttributesAsStyle( fragment:XML ):void
 		{
-			var spanList:XMLList = fragment..span;
+			StyleAttributeUtil.assignAttributesAsStyle( fragment );
+			var children:XMLList = fragment.children();
 			var node:XML;
 			var i:int;
-			for( i = 0; i < spanList.length(); i++ )
+			for( i = 0; i < children.length(); i++ )
 			{
-				node = spanList[i] as XML;
-				StyleAttributeUtil.assignAttributesAsStyle( node );
+				node = children[i] as XML;
+				assignAttributesAsStyle( node );
 			}
 		}
 		

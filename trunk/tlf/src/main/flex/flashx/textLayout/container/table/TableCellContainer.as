@@ -30,6 +30,7 @@ package flashx.textLayout.container.table
 	import flashx.textLayout.model.table.TableData;
 	import flashx.textLayout.model.table.TableHeading;
 	import flashx.textLayout.utils.FragmentAttributeUtil;
+	import flashx.textLayout.utils.TextLayoutFormatUtils;
 	
 	[Event(name="cellResize", type="com.constantcontact.texteditor.event.TableCellContainerEvent")]
 	[Event(name="requestFocus", type="com.constantcontact.texteditor.event.TableCellFocusEvent")]
@@ -277,7 +278,8 @@ package flashx.textLayout.container.table
 			while( elements.length > 0 )
 			{
 				element = elements.shift() as FlowElement;
-				element.format = config.textFlowInitialFormat;
+				element.format = TextLayoutFormatUtils.mergeFormats( config.textFlowInitialFormat, element.format );
+//				TextLayoutFormatUtils.applyUserStyles( element );
 				element.id = _uid;
 				// Add to held list of elements.
 				_elementList.push( element );
@@ -357,9 +359,9 @@ package flashx.textLayout.container.table
 			targetDisplay.y += _descent - 1;// - getPadding();
 			targetDisplay.x = getPadding();// ( _width - _actualWidth ) * 0.5;
 			
-//			border.graphics.clear();
-//			border.graphics.lineStyle( 1 );
-//			border.graphics.drawRect( targetDisplay.x, targetDisplay.y, _actualWidth, _actualHeight );
+			border.graphics.clear();
+			border.graphics.lineStyle( 1 );
+			border.graphics.drawRect( targetDisplay.x, targetDisplay.y, _actualWidth, _actualHeight );
 		}
 		
 		/**
