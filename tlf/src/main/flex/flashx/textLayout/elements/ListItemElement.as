@@ -19,6 +19,7 @@ package flashx.textLayout.elements
 		public function ListItemElement()
 		{
 			super();
+			tlf_internal::createContentElement();
 			
 			tlf_internal::setTextLength(1);
 			
@@ -36,10 +37,9 @@ package flashx.textLayout.elements
 		public function init():void
 		{
 			span = new SpanElement();
-			this.addChild( span );
+//			span.text = 'testing';
+//			this.addChild( span );
 		}
-		
-//		override tlf_internal function c
 		
 		private function getSeparator():String
 		{
@@ -66,6 +66,11 @@ package flashx.textLayout.elements
 		override tlf_internal function canOwnFlowElement(elem:FlowElement) : Boolean
 		{
 			return elem is ParagraphElement || elem is SpanElement;
+		}
+		
+		override public function addChild(child:FlowElement) : FlowElement
+		{
+			return super.addChild( child );
 		}
 		
 		
