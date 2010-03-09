@@ -116,7 +116,7 @@ package flashx.textLayout.edit
 							//	Insert text being entered into position it's being entered
 							var startItem:ListItemElement = startElement as ListItemElement;
 							var list:ListElement = startItem.parent as ListElement;
-							var offset:int = startItem.mode == ListElement.BULLETED ? 3 : 4;
+							var offset:int = startItem.mode == ListElement.UNORDERED ? 3 : 4;
 							var relativeStart:int = this.absoluteStart - startItem.getElementRelativeStart( this.textFlow ) - offset;
 							var rawText:String = startItem.rawText;
 							var beginning:String = rawText.substring(0, relativeStart-1);
@@ -147,7 +147,7 @@ package flashx.textLayout.edit
 										list.removeChildAt(i);
 									}
 									
-									list.update();
+//									list.update();
 								}
 								else
 								{
@@ -162,7 +162,7 @@ package flashx.textLayout.edit
 										list.removeChildAt(i);
 									}
 									
-									list.update();
+//									list.update();
 								}
 								
 								end = '';
