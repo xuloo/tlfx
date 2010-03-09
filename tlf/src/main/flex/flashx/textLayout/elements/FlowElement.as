@@ -71,6 +71,11 @@ package flashx.textLayout.elements
 		
 		/** _textLength (number of chars) in the element, including child content */
 		private var _textLength:int = 0;	
+		
+		/**
+		 * [TA] :: Added uid to allow client to set a unique identifier for the FlowElement 
+		 */
+		public var uid:String;
 	
 		/** Base class - invoking <code>new FlowElement()</code> throws an error exception.
 		*
@@ -243,6 +248,8 @@ package flashx.textLayout.elements
 			var retFlow:FlowElement = new (getDefinitionByName(getQualifiedClassName(this)) as Class);
 			retFlow.styleName = styleName;
 			retFlow.id = id;	// ???? copy me ?????
+			// [TA] :: Added setting uid on shallow copy.
+			retFlow.uid = uid;
 			if (_formatValueHolder !=  null)
 				retFlow._formatValueHolder = new FlowValueHolder(_formatValueHolder);
 			return retFlow;

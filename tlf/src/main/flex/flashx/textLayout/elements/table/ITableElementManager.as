@@ -27,5 +27,11 @@ package flashx.textLayout.elements.table
 		 * @return ICellContainer
 		 */
 		function findCellFromElement( element:FlowElement ):ICellContainer;
+		
+		/**
+		 * Returns the managed table element reference. 
+		 * @return TableElement
+		 */
+		function getManagedTableElement():TableElement;
 	}
 }

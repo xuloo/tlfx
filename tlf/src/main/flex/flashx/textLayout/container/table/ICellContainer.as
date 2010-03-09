@@ -1,5 +1,6 @@
 package flashx.textLayout.container.table
 {
+	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
 	import flash.events.IEventDispatcher;
 	
@@ -55,6 +56,13 @@ package flashx.textLayout.container.table
 		 * @return TableData
 		 */
 		function getData():TableData;
+		
+		/**
+		 * Reference to the master display on which the display is added. 
+		 * @param value DisplayObjectContainer
+		 */
+		function setMasterDisplay( value:DisplayObjectContainer ):void;
+		function getMasterDisplay():DisplayObjectContainer;
 		
 		/**
 		 * Accessor/Mutator of associated ContainerController instance with target display. 
