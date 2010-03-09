@@ -66,7 +66,7 @@ package flashx.textLayout.elements
 	 * @see TextFlow
 	 */
 	 
-	public final class ParagraphElement extends ParagraphFormattedElement
+	public class ParagraphElement extends ParagraphFormattedElement
 	{
 		private var _textBlock:TextBlock;
 		
