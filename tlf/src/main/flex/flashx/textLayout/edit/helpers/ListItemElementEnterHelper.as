@@ -69,13 +69,13 @@ package flashx.textLayout.edit.helpers
 					extendedEditManager.deleteText( newSelectionState );
 					
 					//	force an update to fix the #'s
-					list.update();
+//					list.update();
 				}
 				else
 				{
 					endSelectedText = endElement.text.substr(0, extendedEditManager.absoluteEnd - endPos);	//	correct
 					
-					var offset:int = list.mode == ListElement.BULLETED ? 4 : 5;
+					var offset:int = list.mode == ListElement.UNORDERED ? 4 : 5;
 					var newStartText:String = startItem.rawText.substr(0, extendedEditManager.absoluteStart-startPos-offset);	//	works
 					startItem.text = newStartText;
 					
@@ -84,7 +84,7 @@ package flashx.textLayout.edit.helpers
 					newSelectionState = new SelectionState( extendedEditManager.textFlow, extendedEditManager.absoluteStart, endPos + endSelectedText.length - 1, extendedEditManager.textFlow.format );
 					extendedEditManager.deleteText( newSelectionState );
 					
-					list.update();
+//					list.update();
 				}
 			}
 			//	Delete down to the position previous the beginning of the list item,
@@ -120,7 +120,7 @@ package flashx.textLayout.edit.helpers
 				var startRel:uint = extendedEditManager.absoluteStart - startTextPosition;	//	absolute start minus item's start provides offset
 				var endRel:uint = extendedEditManager.absoluteEnd - endTextPosition;		//	absolute end minus item's end
 				
-				var adjustOffset:uint = startItem.mode == ListElement.BULLETED ? 3 : 4;
+				var adjustOffset:uint = startItem.mode == ListElement.UNORDERED ? 3 : 4;
 				
 				startRel -= adjustOffset;
 				endRel -= adjustOffset;
