@@ -4,6 +4,7 @@ package flashx.textLayout.elements.table
 	
 	import flashx.textLayout.container.table.ICellContainer;
 	import flashx.textLayout.container.table.TableCellContainer;
+	import flashx.textLayout.container.table.TableControllerContainer;
 	import flashx.textLayout.converter.ITagAssembler;
 	import flashx.textLayout.converter.ITagParser;
 	import flashx.textLayout.elements.ContainerFormattedElement;
@@ -26,7 +27,7 @@ package flashx.textLayout.elements.table
 		
 		protected var _tableManager:ITableElementManager;
 		protected var _elementalIndex:int;
-		protected var _targetContainer:DisplayObjectContainer;
+		protected var _targetContainer:TableControllerContainer;
 		
 		protected var _textFlow:TextFlow;
 		
@@ -84,6 +85,8 @@ package flashx.textLayout.elements.table
 			
 			// Parse html string into a Table object using the importer.
 			_table = _importer.parse( evt.xml.toString() ) as Table;
+			_targetContainer.initialize();
+			
 			_tableManager.create( this, _table, _targetContainer );
 		}
 		
@@ -92,7 +95,7 @@ package flashx.textLayout.elements.table
 		 * @param textFlow TextFlow
 		 * @param targetContainer DisplayObjectContainer
 		 */
-		public function initialize( textFlow:TextFlow, targetContainer:DisplayObjectContainer ):void
+		public function initialize( textFlow:TextFlow, targetContainer:TableControllerContainer ):void
 		{
 			_textFlow = textFlow;
 			_targetContainer = targetContainer;
@@ -145,6 +148,24 @@ package flashx.textLayout.elements.table
 			XML.prettyPrinting = true;
 			_fragment = XML( _exporter.createFragment( _table ) );
 			return _fragment.toXMLString();
+		}
+		
+		/**
+		 * Returns reference to target container that cells are placed on. 
+		 * @return DisplayObjectContainer
+		 */
+		public function getTargetContainer():TableControllerContainer
+		{
+			return _targetContainer;
+		}
+		
+		/**
+		 * Returns reference to table model. 
+		 * @return Table
+		 */
+		public function getTableModel():Table
+		{
+			return _table;
 		}
 		
 		/**

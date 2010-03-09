@@ -1,8 +1,11 @@
 package flashx.textLayout.model.table
 {
-	import flashx.textLayout.model.attribute.TableAttribute;
+	import flash.events.Event;
+	
 	import flashx.textLayout.format.IStyle;
+	import flashx.textLayout.model.attribute.TableAttribute;
 
+	[Event(name="resize", type="flash.events.Event")]
 	/**
 	 * Table represents the data associated with a Table. 
 	 * @author toddanderson
@@ -66,7 +69,10 @@ package flashx.textLayout.model.table
 		}
 		public function set width( value:Number ):void
 		{
+			if( value == _width ) return;
+			
 			_width = value;
+			dispatchEvent( new Event( Event.RESIZE ) );
 		}
 		
 		/**
@@ -79,7 +85,10 @@ package flashx.textLayout.model.table
 		}
 		public function set height( value:Number ):void
 		{
+			if( value == height ) return;
+			
 			_height = value;
+			dispatchEvent( new Event( Event.RESIZE ) );
 		}
 	}
 }

@@ -1,5 +1,6 @@
 package flashx.textLayout.container.table
 {
+	import flash.display.DisplayObjectContainer;
 	import flash.display.Shape;
 	import flash.display.Sprite;
 	import flash.events.Event;
@@ -16,6 +17,7 @@ package flashx.textLayout.container.table
 	import flashx.textLayout.elements.Configuration;
 	import flashx.textLayout.elements.DivElement;
 	import flashx.textLayout.elements.FlowElement;
+	import flashx.textLayout.elements.FlowGroupElement;
 	import flashx.textLayout.elements.IConfiguration;
 	import flashx.textLayout.elements.ParagraphElement;
 	import flashx.textLayout.elements.SpanElement;
@@ -42,7 +44,7 @@ package flashx.textLayout.container.table
 	{	
 		protected var background:Sprite;
 		protected var border:Shape;
-		protected var targetDisplay:Sprite;
+		protected var targetDisplay:TableCellDisplay;
 		protected var _controller:ContainerController;
 		
 		protected var _width:Number = 0;
@@ -102,7 +104,7 @@ package flashx.textLayout.container.table
 			addChild( border );
 			
 			// create the target display of the cell.
-			targetDisplay = new Sprite();
+			targetDisplay = new TableCellDisplay();
 			addChild( targetDisplay );
 			
 			// Set default values.
@@ -185,14 +187,14 @@ package flashx.textLayout.container.table
 		{
 			var parsedElements:Array = [];
 			var hasParsedBreaks:Boolean;
-			var para:ParagraphElement;
+			var para:FlowGroupElement;
 			var span:SpanElement;
 			var i:int;
 			var j:int;
 			for( i = 0; i < elements.length; i++ )
 			{
 				hasParsedBreaks = false;
-				para = elements[i] as ParagraphElement;
+				para = elements[i] as FlowGroupElement;
 				for( j = 0; j < para.mxmlChildren.length; j++ )
 				{
 					span = para.mxmlChildren[j] as SpanElement;
@@ -280,7 +282,7 @@ package flashx.textLayout.container.table
 				element = elements.shift() as FlowElement;
 				element.format = TextLayoutFormatUtils.mergeFormats( config.textFlowInitialFormat, element.format );
 //				TextLayoutFormatUtils.applyUserStyles( element );
-				element.id = _uid;
+				element.uid = _uid;
 				// Add to held list of elements.
 				_elementList.push( element );
 				// Push to stack of TextFlow
@@ -301,7 +303,7 @@ package flashx.textLayout.container.table
 			}
 			else
 			{
-				_height = predefinedHeight;
+				_height = _actualHeight + unifiedPadding;
 			}
 			
 			// Reposition inner cell.
@@ -533,6 +535,23 @@ package flashx.textLayout.container.table
 		public function getDisplay():Sprite
 		{
 			return targetDisplay;
+		}
+		
+		/**
+		 * Sets a reference to the master display on which the cell display is added to when referencing a container controller. 
+		 * @param display DisplayObjectContainer
+		 */
+		public function setMasterDisplay( display:DisplayObjectContainer ):void
+		{
+			targetDisplay.master = display;
+		}
+		/**
+		 * Retruns a referecne to the master display on which the cell display resides. 
+		 * @return DisplayObjectContainer
+		 */
+		public function getMasterDisplay():DisplayObjectContainer
+		{
+			return ( targetDisplay.master ) ? targetDisplay.master : targetDisplay.parent;
 		}
 		
 		/**
