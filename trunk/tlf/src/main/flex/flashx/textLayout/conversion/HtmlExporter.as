@@ -29,8 +29,11 @@ package flashx.textLayout.conversion
 	import flashx.textLayout.formats.FormatValue;
 	use namespace tlf_internal;
 
+	
+	// commented out ExcludeClass
+//	[ExcludeClass]
 	/** 
-	* @private
+	* @protected
 	* Export filter for HTML format. 
 	*/
 	public class HtmlExporter implements ITextExporter	
@@ -71,7 +74,7 @@ package flashx.textLayout.conversion
 		 * @param source	the text to export
 		 * @return String	the exported content
 		 */
-		private function exportToString(textFlow:TextFlow):String
+		protected function exportToString(textFlow:TextFlow):String
 		{
 			var result:String;
 			// We do some careful type casting here so that leading and trailing spaces in the XML don't
@@ -97,7 +100,7 @@ package flashx.textLayout.conversion
 		 * @param source	the text to export
 		 * @return XML	the exported content
 		 */
-		private function exportToXML(textFlow:TextFlow) : XML
+		protected function exportToXML(textFlow:TextFlow) : XML
 		{
 			var xml:XML = <BODY/>;
 			
@@ -127,7 +130,7 @@ package flashx.textLayout.conversion
 		 * @param name name for the XML element
 		 * @return XML	the populated XML element
 		 */
-		private function exportParagraph(name:String, para:ParagraphElement):XML
+		protected function exportParagraph(name:String, para:ParagraphElement):XML
 		{
 			// Exported as a <P/>
 			// Some paragraph-level formats (such as textAlign) are exported as attributes of <P/>, 
@@ -149,7 +152,7 @@ package flashx.textLayout.conversion
 		 * @param name name for the XML element
 		 * @return XML	the populated XML element
 		 */
-		private function exportLink(name:String, link:LinkElement):Object
+		protected function exportLink(name:String, link:LinkElement):Object
 		{
 			// Exported as an <A/> with HREF and TARGET attributes
 			// Children of the LinkElement are nested inside the <A/>
@@ -182,7 +185,7 @@ package flashx.textLayout.conversion
 		 * @param name ignored
 		 * @return XMLList the exported children
 		 */
-		private function exportTCY(name:String, tcy:TCYElement):XMLList
+		protected function exportTCY(name:String, tcy:TCYElement):XMLList
 		{
 			// Only children are exported
 			
@@ -191,11 +194,11 @@ package flashx.textLayout.conversion
 			return xml.children();
 		}
 		
-		static private const brRegEx:RegExp = /\u2028/;
+		static protected const brRegEx:RegExp = /\u2028/;
 		
 		/** Gets the xml element used to represent a character in the export format
 		 */
-		static private function getSpanTextReplacementXML(ch:String):XML
+		static protected function getSpanTextReplacementXML(ch:String):XML
 		{
 			CONFIG::debug {assert(ch == '\u2028', "Did not recognize character to be replaced with XML"); }
 			return <BR/>;
@@ -205,7 +208,7 @@ package flashx.textLayout.conversion
 		 * @param name name for the XML element
 		 * @return XML	the populated XML element
 		 */
-		private function exportSpan(name:String, span:SpanElement):Object
+		protected function exportSpan(name:String, span:SpanElement):Object
 		{
 			// Span text is exported as a text node (or text nodes delimited by <BR/> elements for any occurences of U+2028)
 			// These text nodes and <BR/> elements are optionally nested in formatting elements
@@ -251,7 +254,7 @@ package flashx.textLayout.conversion
 		 * @param name name for the XML element
 		 * @return XML	the populated XML element
 		 */		
-		private function exportBreak(name:String, breakElement:BreakElement):XML
+		protected function exportBreak(name:String, breakElement:BreakElement):XML
 		{
 			return <{name}/>;
 		}
@@ -261,13 +264,13 @@ package flashx.textLayout.conversion
 		 * @param name ignored
 		 * @return XML	the populated XML element
 		 */	
-		private function exportTab(name:String, tabElement:TabElement):Object
+		protected function exportTab(name:String, tabElement:TabElement):Object
 		{
 			// Export as a span
 			return exportSpan(name, tabElement);
 		}
 		
-		private function exportTextFormatAttribute (textFormatXML:XML, attrName:String, attrVal:*):XML
+		protected function exportTextFormatAttribute (textFormatXML:XML, attrName:String, attrVal:*):XML
 		{
 			if (!textFormatXML)
 				textFormatXML = <TEXTFORMAT/>;
@@ -282,7 +285,7 @@ package flashx.textLayout.conversion
 		 * @para the paragraph
 		 * @return XML	the outermost XML element after exporting 
 		 */	
-		private function exportParagraphFormat(xml:XML, para:ParagraphElement):XML
+		protected function exportParagraphFormat(xml:XML, para:ParagraphElement):XML
 		{	
 			var paraFormat:ITextLayoutFormat = para.computedFormat;
 			
@@ -349,7 +352,7 @@ package flashx.textLayout.conversion
 		 * @span the span
 		 * @return XML	the outermost XML element after exporting 
 		 */	
-		private function exportSpanFormat(xml:Object, span:SpanElement):Object
+		protected function exportSpanFormat(xml:Object, span:SpanElement):Object
 		{
 			// These are optionally nested in a <FONT/> with appopriate attributes ,			 
 			
@@ -379,7 +382,7 @@ package flashx.textLayout.conversion
 			return outerElement;			   	
 		}	
 		
-		private function exportFontAttribute (fontXML:XML, attrName:String, attrVal:*):XML
+		protected function exportFontAttribute (fontXML:XML, attrName:String, attrVal:*):XML
 		{
 			if (!fontXML)
 				fontXML = <FONT/>;
@@ -395,7 +398,7 @@ package flashx.textLayout.conversion
 		 * @param ifDifferentFromFormat if non-null, a value in format is exported only if it differs from the corresponding value in ifDifferentFromFormat
 		 * @return XML	the populated XML element
 		 */	
-		private function exportFont(format:ITextLayoutFormat, ifDifferentFromFormat:ITextLayoutFormat=null):XML
+		protected function exportFont(format:ITextLayoutFormat, ifDifferentFromFormat:ITextLayoutFormat=null):XML
 		{
 			var font:XML;
 			if (!ifDifferentFromFormat || ifDifferentFromFormat.fontFamily != format.fontFamily)
@@ -422,7 +425,7 @@ package flashx.textLayout.conversion
 		 * @param flowElement	Element to export
 		 * @return Object	XML/XMLList for the flowElement
 		 */
-		private function exportElement(flowElement:FlowElement):Object
+		protected function exportElement(flowElement:FlowElement):Object
 		{
 			var className:String = flash.utils.getQualifiedClassName(flowElement);
 			var info:FlowElementInfo = _config.lookupByClass(className);
@@ -435,7 +438,7 @@ package flashx.textLayout.conversion
 		 * @param xml XML to append children to
 		 * @param flowGroupElement	the flow group element
 		 */
-		private function exportChildren(xml:XML, flowGroupElement:FlowGroupElement):void
+		protected function exportChildren(xml:XML, flowGroupElement:FlowGroupElement):void
 		{
 			for(var i:int=0; i < flowGroupElement.numChildren; ++i)
 			{
@@ -449,7 +452,7 @@ package flashx.textLayout.conversion
 		 * @param children the intended children (XML or XMLList)
 		 * @return the parent
 		 */
-		private function nest (parent:XML, children:Object):XML
+		protected function nest (parent:XML, children:Object):XML
 		{
 			parent.setChildren(children);
 			return parent;
