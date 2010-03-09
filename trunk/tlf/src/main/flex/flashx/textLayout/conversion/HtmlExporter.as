@@ -29,14 +29,13 @@ package flashx.textLayout.conversion
 	import flashx.textLayout.formats.FormatValue;
 	use namespace tlf_internal;
 
-	[ExcludeClass]
 	/** 
 	* @private
 	* Export filter for HTML format. 
 	*/
-	internal class HtmlExporter implements ITextExporter	
+	public class HtmlExporter implements ITextExporter	
 	{
-		private static var _config:ImportExportConfiguration;
+		protected static var _config:ImportExportConfiguration;
 		
 		public function HtmlExporter()
 		{
@@ -227,7 +226,7 @@ package flashx.textLayout.conversion
 		 * @param name name for the XML element
 		 * @return XML	the populated XML element
 		 */
-		private function exportImage(name:String, image:InlineGraphicElement):XML
+		protected function exportImage(name:String, image:InlineGraphicElement):XML
 		{
 			// Exported as an <IMG/> with SRC, WIDTH, HEIGHT and ALIGN attributes
 			
