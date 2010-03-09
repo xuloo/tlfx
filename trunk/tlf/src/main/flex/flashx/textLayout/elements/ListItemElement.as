@@ -4,7 +4,7 @@ package flashx.textLayout.elements
 	
 	use namespace tlf_internal;
 	
-	public class ListItemElement extends SpanElement
+	public class ListItemElement extends ParagraphElement
 	{
 		private var _baseText:String;
 		private var _mode:String;
@@ -13,6 +13,8 @@ package flashx.textLayout.elements
 		
 		private var _first:Boolean;
 		private var _last:Boolean;
+		
+		public var span:SpanElement;
 		
 		public function ListItemElement()
 		{
@@ -25,7 +27,19 @@ package flashx.textLayout.elements
 			_num = 0;
 			_first = false;
 			_last = false;
+			
+//			span = new SpanElement();
+//			
+//			this.addChild( span );
 		}
+		
+		public function init():void
+		{
+			span = new SpanElement();
+			this.addChild( span );
+		}
+		
+//		override tlf_internal function c
 		
 		private function getSeparator():String
 		{
@@ -47,6 +61,11 @@ package flashx.textLayout.elements
 		override tlf_internal function canReleaseContentElement() : Boolean
 		{
 			return false;
+		}
+		
+		override tlf_internal function canOwnFlowElement(elem:FlowElement) : Boolean
+		{
+			return elem is ParagraphElement || elem is SpanElement;
 		}
 		
 		
@@ -95,7 +114,7 @@ package flashx.textLayout.elements
 			return _last;
 		}
 		
-		override public function set text(textValue:String) : void
+		public function set text(textValue:String) : void
 		{
 			_baseText = textValue;
 			var start:String = first ? '\n' : '';
@@ -105,11 +124,11 @@ package flashx.textLayout.elements
 			end += '\n';
 			
 			var textToPass:String = start + textValue + end;
-			super.text = textToPass;
+			span.text = textToPass;
 		}
-		override public function get text() : String
+		public function get text() : String
 		{
-			return super.text;
+			return span.text;
 		}
 		
 		public function get rawText() : String

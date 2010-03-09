@@ -2,9 +2,12 @@ package flashx.textLayout.edit.helpers
 {
 	import flashx.textLayout.edit.ExtendedEditManager;
 	import flashx.textLayout.edit.SelectionState;
+	import flashx.textLayout.elements.FlowElement;
 	import flashx.textLayout.elements.FlowLeafElement;
+	import flashx.textLayout.elements.LinkElement;
 	import flashx.textLayout.elements.ListElement;
 	import flashx.textLayout.elements.ListItemElement;
+	import flashx.textLayout.elements.SpanElement;
 	
 	public class ListItemElementEnterHelper
 	{
@@ -100,7 +103,7 @@ package flashx.textLayout.edit.helpers
 		
 		public static function processReturnKey( extendedEditManager:ExtendedEditManager, startItem:ListItemElement ):void
 		{
-			var endElem:FlowLeafElement = extendedEditManager.textFlow.findLeaf( extendedEditManager.absoluteEnd );
+			var endElem:FlowElement = extendedEditManager.textFlow.findLeaf( extendedEditManager.absoluteEnd );
 			var endItem:ListItemElement = endElem is ListItemElement ? endElem as ListItemElement : null;
 			
 			if ( startItem.parent )
@@ -125,7 +128,25 @@ package flashx.textLayout.edit.helpers
 				var newStr:String = '';
 				
 				var startText:String = startItem.rawText;
-				var endText:String = endItem ? endItem.rawText : endElem.text;
+				var endText:String = new String();
+				
+				if ( endItem )
+				{
+					endText = endItem.rawText;
+				}
+				else
+				{
+					if ( endElem is SpanElement )
+					{
+						endText = ( endElem as SpanElement ).text
+					}
+					else if ( endElem is LinkElement )
+					{
+						endText = ( endElem as LinkElement ).href;
+					}
+					
+					//	can't do ParagraphElements or DivElements as they have no text
+				}
 				
 				var startPos:int = list.getChildIndex( startItem );
 				var endPos:int = list.getChildIndex( endItem ? endItem : endElem );

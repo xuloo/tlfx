@@ -4,7 +4,7 @@ package flashx.textLayout.elements
 	
 	use namespace tlf_internal;
 	
-	public class ListElement extends SubParagraphGroupElement
+	public class ListElement extends DivElement
 	{
 		public static const BULLETED:String	=	'bulleted';
 		public static const NUMBERED:String	=	'numbered';
@@ -21,30 +21,24 @@ package flashx.textLayout.elements
 		
 		override public function addChild(child:FlowElement) : FlowElement
 		{
-			trace('adding');
 			var toReturn:ListItemElement = new ListItemElement();
 			if ( !(child is ListItemElement) )
 			{
-				trace('not list item element');
 				if ( child is SpanElement )
 				{
-					trace('\tspan');
 					toReturn.text = ( child as SpanElement ).text;
 				}
 				else if ( child is LinkElement )
 				{
-					trace('\tlink');
 					toReturn.text = ( child as LinkElement ).getText( 0, ( child as LinkElement ).textLength );
 				}
 				else
 				{
-					trace('\tdunno:', child);
 					toReturn.text = '';
 				}
 			}
 			else
 			{
-				trace('is, recasting');
 				toReturn = child as ListItemElement;
 			}
 			
@@ -65,30 +59,24 @@ package flashx.textLayout.elements
 		
 		override public function addChildAt(index:uint, child:FlowElement) : FlowElement
 		{
-			trace('adding at');
 			var toReturn:ListItemElement = new ListItemElement();
 			if ( !(child is ListItemElement) )
 			{
-				trace('not list item element');
 				if ( child is SpanElement )
 				{
-					trace('\tspan');
 					toReturn.text = ( child as SpanElement ).text;
 				}
 				else if ( child is LinkElement )
 				{
-					trace('\tlink');
 					toReturn.text = ( child as LinkElement ).getText( 0, ( child as LinkElement ).textLength );
 				}
 				else
 				{
-					trace('\tdunno:', child);
 					toReturn.text = '';
 				}
 			}
 			else
 			{
-				trace('is, recasting');
 				toReturn = child as ListItemElement;
 			}
 			
@@ -207,7 +195,7 @@ package flashx.textLayout.elements
 		
 		override tlf_internal function canOwnFlowElement(elem:FlowElement) : Boolean
 		{
-			return elem is ListItemElement;
+			return elem is ListItemElement || elem is ParagraphElement;
 		}
 		
 		override protected function get abstract() : Boolean

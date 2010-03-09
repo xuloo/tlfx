@@ -26,7 +26,7 @@ package flashx.textLayout.elements
 	 * @see ParagraphElement
 	 * @see TextFlow
 	 */
-	public final class DivElement extends ContainerFormattedElement
+	public class DivElement extends ContainerFormattedElement
 	{
 		/** Constructor - creates a new DivElement object.
 		*		*
