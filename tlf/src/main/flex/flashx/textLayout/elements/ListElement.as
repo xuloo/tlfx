@@ -6,6 +6,7 @@ package flashx.textLayout.elements
 	
 	public class ListElement extends DivElement
 	{
+		public static const NONE:String 		= 	'none';
 		public static const ORDERED:String		=	'ordered';
 		public static const UNORDERED:String	=	'unordered';
 		

@@ -196,19 +196,7 @@ package flashx.textLayout.edit
 		 */
 		override public function editHandler(event:Event):void
 		{
-			// TODO: Only if target is a TableElement.
-//			if( event.type == Event.PASTE )
-//			{
-//				// need to trip out carriage returns. Carriage returns in a paste operation cause runtime error because TLF goes all whack.
-//				var data:String = TextClipboard.getTextOnClipboardForFormat(ClipboardFormats.TEXT_FORMAT );
-//				data = data.replace( /[\r\n]/g, "");
-//				// Update contents of clipboard with cleaned strings.
-//				var flow:TextFlow = TextConverter.importToFlow( data, TextConverter.PLAIN_TEXT_FORMAT );
-//				var tlf:String = TextConverter.export( flow, TextConverter.TEXT_LAYOUT_FORMAT, ConversionType.STRING_TYPE ).toString();
-//				TextClipboard.tlf_internal::setClipboardContents( tlf, data );
-//			}
-			// TODO: Create custom PasteOperation for TableElement,
-			//			where the affected cell is passed in, and internalDoOperation is overriden to append content.
+			// Access to String pasted form clipboard. Just for reference.
 			var data:String = TextClipboard.getTextOnClipboardForFormat(ClipboardFormats.TEXT_FORMAT );
 			super.editHandler( event );
 		}
@@ -248,10 +236,5 @@ package flashx.textLayout.edit
 			}
 			doOperation(new PasteOperation(operationState, scrapToPaste));
 		}
-		
-//		private static function getClass(obj:Object):Class
-//		{
-//			return Class(getDefinitionByName(getQualifiedClassName(obj)));
-//		}
 	}
 }
