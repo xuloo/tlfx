@@ -25,13 +25,18 @@
     <classEntry path="flashx.textLayout.compose.TextFlowLineLocation"/>
     <classEntry path="flashx.textLayout.compose.TextLineRecycler"/>
     <classEntry path="flashx.textLayout.compose.VerticalJustifier"/>
+    <classEntry path="flashx.textLayout.container.AutosizableContainerController"/>
+    <classEntry path="flashx.textLayout.container.AutosizableControllerContainer"/>
     <classEntry path="flashx.textLayout.container.ColumnState"/>
     <classEntry path="flashx.textLayout.container.ContainerController"/>
     <classEntry path="flashx.textLayout.container.ISandboxSupport"/>
+    <classEntry path="flashx.textLayout.container.ISizableContainer"/>
     <classEntry path="flashx.textLayout.container.ScrollPolicy"/>
     <classEntry path="flashx.textLayout.container.TextContainerManager"/>
     <classEntry path="flashx.textLayout.container.table.ICellContainer"/>
     <classEntry path="flashx.textLayout.container.table.TableCellContainer"/>
+    <classEntry path="flashx.textLayout.container.table.TableCellDisplay"/>
+    <classEntry path="flashx.textLayout.container.table.TableControllerContainer"/>
     <classEntry path="flashx.textLayout.conversion.BaseTextLayoutExporter"/>
     <classEntry path="flashx.textLayout.conversion.BaseTextLayoutImporter"/>
     <classEntry path="flashx.textLayout.conversion.ConversionType"/>
@@ -111,6 +116,7 @@
     <classEntry path="flashx.textLayout.elements.TextRange"/>
     <classEntry path="flashx.textLayout.elements.table.ITableElementManager"/>
     <classEntry path="flashx.textLayout.elements.table.TableElement"/>
+    <classEntry path="flashx.textLayout.events.AutosizableContainerControllerEvent"/>
     <classEntry path="flashx.textLayout.events.CompositionCompleteEvent"/>
     <classEntry path="flashx.textLayout.events.DamageEvent"/>
     <classEntry path="flashx.textLayout.events.FlowElementMouseEvent"/>
