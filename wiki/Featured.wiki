@@ -15,7 +15,7 @@ Add your content here.  Format your content with:
   
 <b>kdsfjdsaklfj </b>
 
-<tabl>
+<table>
 <tr>
 	<td>test1</td>
 	<td>test2</td>
