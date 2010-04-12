@@ -2,22 +2,16 @@
 #labels Featured
 
 <ul>
-<li><b>Identify</b> the issue</li>
-</ul>
+<li><b>Start small</b>. Review and understand the existing source code. Spend some time beforehand running the examples and making sure you understand how they work. You should have a general idea 
+of how your change would affect the rest of the source and whether your issue would benefit the goals of the project. Some additional thoughts might be:
 
 <ul>
-<li><b>Start small</b>. Review other patches and offer constructive suggestions and improvements. Tackle a few small bugs from the issue queue. Prove yourself. Before you wade in with a substantial change, develop a profile as a dependable, collaborative contributor.</li>
-<li>Take a step back and <b>objectively evaluate whether the changes are appropriate</b> for the Drupal core. Ask yourself:
-
-<ul>
-<li>Is the feature already implemented? Search the forums and issue tracker.</li>
-<li>Could the feature be implemented as a contributed module rather than a patch to the core?</li>
-<li>Will the change benefit a substantial part of the Drupal install base?</li>
-<li>Is the change sufficiently general for others to build upon cleanly?</li>
+<li>Is the issue a duplicate of an existing bug? Search the issue tracker to identify whether the issue is unique.</li>
+<li>Does this feature exist or would this produce new functionality? Ask around on the mailing list.</li>
+<li>Will this feature be useful to the project?</li>
 </ul>
 </li>
-<li><b>Be explanatory</b>, provide descriptions and illustrations, make a solid case. Don't count on others downloading, installing, and testing your changes. Rather, show them in a nutshell what your changes could mean to them. Anticipate and address questions or concerns. If appropriate, provide screenshots.</li>
-<li><b>Write an <a href="/simpletest" rel="nofollow">automated test</a></b> to accompany your patch.
+<li><b>Be explanatory</b>, explain why this feature would be useful to the project. You could provide high level diagrams, descriptions, and code examples that demonstrate its value.
 
 <ul>
 <li>If your patch introduces new functionality, ensure that that the test affirms that functionality.</li>
