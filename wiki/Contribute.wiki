@@ -1,7 +1,36 @@
-#summary This page explains the process of becoming a TLFX team member.
+#summary This page explains the process of contributing and submitting issues to the TLFX project.
 #labels Featured
 
-= Identify =
+<ul>
+<li><b>Identify</b> the issue</li>
+</ul>
+
+<ul>
+<li><b>Start small</b>. Review other patches and offer constructive suggestions and improvements. Tackle a few small bugs from the issue queue. Prove yourself. Before you wade in with a substantial change, develop a profile as a dependable, collaborative contributor.</li>
+<li>Take a step back and <b>objectively evaluate whether the changes are appropriate</b> for the Drupal core. Ask yourself:
+
+<ul>
+<li>Is the feature already implemented? Search the forums and issue tracker.</li>
+<li>Could the feature be implemented as a contributed module rather than a patch to the core?</li>
+<li>Will the change benefit a substantial part of the Drupal install base?</li>
+<li>Is the change sufficiently general for others to build upon cleanly?</li>
+</ul>
+</li>
+<li><b>Be explanatory</b>, provide descriptions and illustrations, make a solid case. Don't count on others downloading, installing, and testing your changes. Rather, show them in a nutshell what your changes could mean to them. Anticipate and address questions or concerns. If appropriate, provide screenshots.</li>
+<li><b>Write an <a href="/simpletest" rel="nofollow">automated test</a></b> to accompany your patch.
+
+<ul>
+<li>If your patch introduces new functionality, ensure that that the test affirms that functionality.</li>
+<li>If your patch addresses a bug, ensure that the test identifies the bug and demonstrates that your patch fixes it.</li>
+</ul>
+</li>
+<li><b>Be open to suggestions</b> and to other ways of accomplishing what you're aiming for. Be collaborative, friendly and respectful. Acknowledge the effort others put in.</li>
+<li><b>Be persistent</b>. If you don't get any response right away, don't necessarily give up. If you're still convinced your idea has merit, find another way to present it. Request another developer - ideally, one  familiar with your work - to take the time to review your contrinbution.</li>
+<li><b>Be responsive</b> to suggestions, requests, or issues raised. Revise your work accordingly.</li>
+
+<li>If some time has gone by, update your changes to work with the current CVS version.</li>
+</ul>
+
 
 First you should identify an existing bug/issue with the codebase.
 * make sure that your issue is not a duplicate of another issue in the system
