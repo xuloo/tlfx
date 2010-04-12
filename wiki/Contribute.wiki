@@ -38,5 +38,4 @@ of the time, the lag is simply due to the developers not being able to find time
 		<li>http://svnbook.red-bean.com/en/1.0/re09.html</li>
 		<li>http://help.eclipse.org/help32/index.jsp?topic=/org.eclipse.platform.doc.user/tasks/tasks-68c.htm</li>
 	</ul>
-</li>
 </ul>
