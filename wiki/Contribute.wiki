@@ -12,18 +12,18 @@ of how your change would affect the rest of the source and whether your issue wo
 <li>Will this feature be useful to the project?</li>
 </ul>
 </li>
-<li><b>Be explanatory</b>, explain why this feature would be useful to the project. You could provide high level diagrams, descriptions, and code examples that demonstrate its value.
+<li><b>Be explanatory</b>. Explain why this feature would be useful to the project. You could provide high level diagrams, descriptions, and code examples that demonstrate its value.
 <li><b>Write an automated test to accompany your patch</b></li>
 <ul>
 <li>Providing automated tests help developers test and confirm that your patch does what it says it should do.</li>
 </ul>
 </li>
-<li><b>Be open to suggestions</b>, remember that there are current existing goals for the project. Your issue may affect other issues that you may not have known. The development team can best 
+<li><b>Be open to suggestions</b>. Remember that there are current existing goals for the project. Your issue may affect other issues that you may not have known. The development team can best 
 help you understand how your patch affects the project.</li>
 <li><b>Be persistent</b>. Check up on your bug to make sure it is being addressed. At the very least, the developer will let you know why it is or is not being addressed immediately. Most
 of the time, the lag is simply due to the developers not being able to find time to apply your fix. A simple reply to the bug should bring the issue back into scope. That said, don't be pushy!</li>
-<li><b>Be responsive</b>, if you see your bug is being commented on, take the time to provide as much clarification as possible. The developer will likely pay more attention to bugs that are actively being discussed.</li>
-<li><b>Provide Updates</b> ,if some time has gone by, make sure you retest your issue with the latest codebase and update your issue in the tracking software.</li>
+<li><b>Be responsive</b> If you see your bug is being commented on, take the time to provide as much clarification as possible. The developer will likely pay more attention to bugs that are actively being discussed.</li>
+<li><b>Provide Updates</b>. If some time has gone by, make sure you retest your issue with the latest codebase and update your issue in the tracking software.</li>
 </ul>
 
 <h1>Bug Submission Guidelines</h1>
