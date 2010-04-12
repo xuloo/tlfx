@@ -1,6 +1,8 @@
 #summary This page explains the process of contributing and submitting issues to the TLFX project.
 #labels Featured
 
+<h1>Helpful Tips</h1>
+
 <ul>
 <li><b>Start small</b>. Review and understand the existing source code. Spend some time beforehand running the examples and making sure you understand how they work. You should have a general idea 
 of how your change would affect the rest of the source and whether your issue would benefit the goals of the project. Some additional thoughts might be:
@@ -23,3 +25,5 @@ of the time, the lag is simply due to the developers not being able to find time
 <li><b>Be responsive</b>, if you see your bug is being commented on, take the time to provide as much clarification as possible. The developer will likely pay more attention to bugs that are actively being discussed.</li>
 <li><b>Updates</b> ,if some time has gone by, make sure you retest your issue with the latest codebase and update your issue in the tracking software.</li>
 </ul>
+
+<h1>Bug Submission Guidelines</h1>
