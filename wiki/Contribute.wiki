@@ -1,9 +1,10 @@
-#summary One-sentence summary of this page.
+#summary This page explains the process of becoming a TLFX team member.
 #labels Featured
 
-= Introduction =
+= Identify =
 
-Add your content here.
+First you should identify an existing bug/issue with the codebase.
+* make sure that your issue is not a duplicate of another issue in the system
 
 
 = Details =
