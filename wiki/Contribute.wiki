@@ -4,7 +4,6 @@
 <ul>
 <li><b>Start small</b>. Review and understand the existing source code. Spend some time beforehand running the examples and making sure you understand how they work. You should have a general idea 
 of how your change would affect the rest of the source and whether your issue would benefit the goals of the project. Some additional thoughts might be:
-
 <ul>
 <li>Is the issue a duplicate of an existing bug? Search the issue tracker to identify whether the issue is unique.</li>
 <li>Does this feature exist or would this produce new functionality? Ask around on the mailing list.</li>
@@ -12,27 +11,16 @@ of how your change would affect the rest of the source and whether your issue wo
 </ul>
 </li>
 <li><b>Be explanatory</b>, explain why this feature would be useful to the project. You could provide high level diagrams, descriptions, and code examples that demonstrate its value.
-
-<li>Write an automated test to accompany your patch</li>
+<li><b>Write an automated test to accompany your patch</b></li>
 <ul>
 <li>Providing automated tests help developers test and confirm that your patch does what it says it should do.</li>
 </ul>
 </li>
-<li><b>Be open to suggestions</b> and to other ways of accomplishing what you're aiming for. Be collaborative, friendly and respectful. Acknowledge the effort others put in.</li>
-<li><b>Be persistent</b>. If you don't get any response right away, don't necessarily give up. If you're still convinced your idea has merit, find another way to present it. Request another developer - ideally, one  familiar with your work - to take the time to review your contrinbution.</li>
-<li><b>Be responsive</b> to suggestions, requests, or issues raised. Revise your work accordingly.</li>
+<li><b>Be open to suggestions</b>, remember that there are current existing goals for the project. Your issue may affect other issues that you may not have known. The development team can best 
+help you understand how your patch affects the project.</li>
+<li><b>Be persistent</b>. Check up on your bug to make sure it is being addressed. At the very least, the developer will let you know why it is or is not being addressed immediately. Most
+of the time, the lag is simply due to the developers not being able to find time to apply your fix. A simple reply to the bug should bring the issue back into scope. That said, don't be pushy!</li>
+<li><b>Be responsive</b>, if you see your bug is being commented on, take the time to provide as much clarification as possible. The developer will likely pay more attention to bugs that are actively being discussed.</li>
 
-<li>If some time has gone by, update your changes to work with the current CVS version.</li>
+<li>If some time has gone by, make sure you retest your issue with the latest codebase and update your issue in the tracking software.</li>
 </ul>
-
-
-First you should identify an existing bug/issue with the codebase.
-* make sure that your issue is not a duplicate of another issue in the system
-
-
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
