@@ -34,8 +34,8 @@ of the time, the lag is simply due to the developers not being able to find time
 <li>Attach patches to the appropriate issue in the tracker.</li>
 <li>Name the patch file with a .diff extension</li>
 <li>Review additional guidelines on submitting patches</li>
-	<ul>
-		<li>http://svnbook.red-bean.com/en/1.0/re09.html</li>
-		<li>http://help.eclipse.org/help32/index.jsp?topic=/org.eclipse.platform.doc.user/tasks/tasks-68c.htm</li>
-	</ul>
+<ul>
+<li>http://svnbook.red-bean.com/en/1.0/re09.html</li>
+<li>http://help.eclipse.org/help32/index.jsp?topic=/org.eclipse.platform.doc.user/tasks/tasks-68c.htm</li>
+</ul>
 </ul>
