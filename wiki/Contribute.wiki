@@ -22,5 +22,5 @@ help you understand how your patch affects the project.</li>
 of the time, the lag is simply due to the developers not being able to find time to apply your fix. A simple reply to the bug should bring the issue back into scope. That said, don't be pushy!</li>
 <li><b>Be responsive</b>, if you see your bug is being commented on, take the time to provide as much clarification as possible. The developer will likely pay more attention to bugs that are actively being discussed.</li>
 
-<li>If some time has gone by, make sure you retest your issue with the latest codebase and update your issue in the tracking software.</li>
+<li><b>Updates</b> ,if some time has gone by, make sure you retest your issue with the latest codebase and update your issue in the tracking software.</li>
 </ul>
