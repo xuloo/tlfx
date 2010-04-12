@@ -13,9 +13,9 @@ of how your change would affect the rest of the source and whether your issue wo
 </li>
 <li><b>Be explanatory</b>, explain why this feature would be useful to the project. You could provide high level diagrams, descriptions, and code examples that demonstrate its value.
 
+<li>Write an automated test to accompany your patch</ul>
 <ul>
-<li>If your patch introduces new functionality, ensure that that the test affirms that functionality.</li>
-<li>If your patch addresses a bug, ensure that the test identifies the bug and demonstrates that your patch fixes it.</li>
+<li>Providing automated tests help developers test and confirm that your patch does what it says it should do.</li>
 </ul>
 </li>
 <li><b>Be open to suggestions</b> and to other ways of accomplishing what you're aiming for. Be collaborative, friendly and respectful. Acknowledge the effort others put in.</li>
